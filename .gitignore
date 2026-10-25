@@ -1,8 +1,10 @@
 # secrets
 .env
+.env.*
+!.env.example
+atlas-credentials.env
 *.pem
 *.key
-
 # python
 __pycache__/
 *.py[cod]

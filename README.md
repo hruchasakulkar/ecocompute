@@ -1,27 +1,29 @@
 # EcoCompute
 
-**Data-driven data center monitoring and maintenance system**
+**Data-driven Data Center Monitoring and Maintenance System**
 
-EcoCompute combines structured operational records in PostgreSQL with telemetry documents in MongoDB. A Streamlit dashboard will provide monitoring summaries and maintenance workflows.
+EcoCompute combines structured operational records in MySQL with telemetry documents in MongoDB Atlas. A Streamlit dashboard provides monitoring summaries, telemetry visualizations, and maintenance information.
 
-## Team responsibilities
+## Team Responsibilities
 
-- **Member 1 — Relational Architect:** ER model, SQL schema, sample operational data, `INNER JOIN`, nested subquery, and stored procedure.
-- **Member 2 — NoSQL/Data Engineer:** telemetry document schema, 1,000+ mock telemetry records, MongoDB aggregation pipeline.
-- **Member 3 — Python/Backend Lead:** modular SQL/MongoDB connectors, exception handling, and methods returning Pandas DataFrames.
-- **Member 4 — UI/Presentation Lead:** Streamlit dashboard, charts, forms, validation, and UI testing.
+- **Member 1 — Relational Architect:** SQL schema, sample operational data, joins, nested subqueries, and stored procedures.
+- **Member 2 — NoSQL/Data Engineer:** Telemetry document schema, 1,000+ mock telemetry records, and MongoDB aggregation pipeline.
+- **Member 3 — Python/Backend Lead:** Modular SQL and MongoDB connectors, exception handling, and methods returning Pandas DataFrames.
+- **Member 4 — UI/Presentation Lead:** Streamlit dashboard, charts, filters, and UI testing.
 
-## Repository structure
+## Repository Structure
 
 ```text
 ecocompute/
 ├── backend/
+│   ├── sql_manager.py
+│   └── mongo_manager.py
 ├── db_scripts/
 │   ├── schema.sql
 │   ├── seed.sql
 │   └── advanced_queries.sql
-├── docs/
 ├── frontend/
+│   └── app.py
 ├── tests/
 ├── .env.example
 ├── .gitignore
@@ -29,49 +31,69 @@ ecocompute/
 └── README.md
 ```
 
-## Setup
+## Setup Instructions
 
 1. Install Python 3.9 or newer.
-2. Install PostgreSQL and create a database named `ecocompute`.
-3. Install MongoDB locally or create a MongoDB Atlas cluster.
-4. Create a local `.env` file by copying `.env.example`, then fill in your own credentials.
-5. Install Python dependencies:
+2. Install MySQL Server and create a database named `ecocompute`.
+3. Configure MongoDB Atlas and ensure your IP address is permitted in Atlas Network Access.
+4. Configure the local environment files:
+   - `.env` for MySQL settings.
+   - `atlas-credentials.env` for the MongoDB Atlas connection URI and database name.
+5. Activate your virtual environment and install dependencies:
 
-   ```bash
+   **Windows PowerShell**
+   ```powershell
    python -m venv .venv
-   source .venv/bin/activate
-   pip install -r requirements.txt
+   .\.venv\Scripts\Activate.ps1
+   python -m pip install -r requirements.txt
    ```
 
-6. In PostgreSQL, run `db_scripts/schema.sql`, then `db_scripts/seed.sql`.
-7. Run the SQL examples in `db_scripts/advanced_queries.sql` individually to inspect the results.
+6. Execute `db_scripts/schema.sql`, followed by `db_scripts/seed.sql`, in MySQL Workbench.
+7. Run the examples in `db_scripts/advanced_queries.sql` individually to inspect the results.
+8. Start the dashboard from the repository root:
 
-> **Security:** Never commit `.env`, passwords, or a MongoDB connection URI containing credentials. Share secrets only through a secure method.
+   ```powershell
+   python -m streamlit run frontend/app.py
+   ```
 
-## Git collaboration
+9. Open the local URL displayed in the terminal by Streamlit.
+
+## Dashboard Features
+
+- **Overview:** MySQL maintenance summaries, high-power racks, and a MongoDB telemetry snapshot.
+- **Server Telemetry:** Hourly telemetry averages, time-window selection, rack filters, and temperature, power, and CPU charts.
+- **Maintenance Logs:** Maintenance records with status filtering.
+- **Rack and Zone Details:** High-power racks and maintenance status summaries.
+- **Database Status:** Separate connection indicators for MySQL and MongoDB.
+
+## Security
+
+Never commit `.env`, `atlas-credentials.env`, passwords, or MongoDB connection URIs containing credentials. Use `.env.example` only for placeholder values. Share credentials through a secure method.
+
+## Git Collaboration
 
 Use short-lived task branches and pull requests. Do not commit directly to `main`.
 
 ```bash
-git switch -c feature/sql-schema
-# make and test changes
-git add db_scripts/
-git commit -m "Add relational schema and sample data"
-git push -u origin feature/sql-schema
+git switch -c feature/ui-dashboard
+# Make and test changes
+git add frontend/ README.md .gitignore requirements.txt
+git commit -m "Integrate Streamlit monitoring dashboard"
+git push -u origin feature/ui-dashboard
 ```
 
-Open a pull request to `main` and request one teammate's review. After a teammate merges a pull request, sync your local branch:
+Open a pull request to `main` and request a teammate's review. After a teammate merges a pull request, synchronize your local branch:
 
 ```bash
 git switch main
 git pull origin main
 ```
 
-## Report evidence to collect
+## Report Evidence to Collect
 
-- ER diagram and relational schema
-- database setup steps and executed DDL
-- screenshots of sample records and advanced query outputs
-- stored procedure execution and maintenance record insertion
-- final dashboard screenshots and usage instructions
-- test cases, validation results, and limitations
+- ER diagram and relational schema.
+- Database setup steps and executed DDL.
+- Screenshots of sample records and advanced query outputs.
+- Stored procedure execution and maintenance record insertion.
+- Final dashboard screenshots and usage instructions.
+- Test cases, validation results, and known limitations.

@@ -50,4 +50,3 @@ CREATE INDEX idx_logs_rack_date
 
 CREATE INDEX idx_logs_status
     ON maintenance_logs(status);
-SQL
